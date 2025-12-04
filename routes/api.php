@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BatchController;
+use App\Http\Controllers\DemoController;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\FaculitiesController;
@@ -15,6 +16,7 @@ use App\Http\Controllers\PaperFacultyController;
 use App\Http\Controllers\PaperStudentController;
 use App\Http\Controllers\ProgrammeController;
 use App\Http\Controllers\StudentRegisterController;
+use App\Http\Controllers\UserCotroller;
 
 Route::post('/student/register', [StudentRegisterController::class, 'register']);
 Route::post('/faculity/login', [AuthController::class, 'facultyLogin']);
@@ -80,4 +82,10 @@ Route::controller(AdmissionController::class)->prefix('admissions')->group(funct
 Route::controller(AttendanceController::class)->group(function () {
     Route::get('/attendances', 'index');
     Route::post('/attendances/bulk-mark', 'markAttendance');
+});
+
+Route::controller(DemoController::class)->group(function(){
+        Route::get('/collection','collectionExample');
+        Route::get('/store','testStorage');
+        Route::get('/get-content','getContent');
 });
