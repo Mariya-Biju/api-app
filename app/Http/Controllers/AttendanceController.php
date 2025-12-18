@@ -11,7 +11,42 @@ class AttendanceController extends Controller
 {
     public function index()
     {
-        return response()->json(DB::table('attendances')->get());
+
+        $date = request('date');
+        $attendance_hour = request('hour');
+        $batch_id = request('batch_id');
+        $results = DB::table('admissions as ad')
+            ->leftJoin('attendances as at', function ($join) use ($attendance_hour, $date) {
+                $join->on('ad.student_id', '=', 'at.student_id')
+                    ->where('at.hour', $attendance_hour)
+                    ->where('at.date', $date);
+            })
+            ->leftJoin('papers as p', function ($join) {
+                $join->on('p.id', '=', 'at.programme_id')
+                    ->where('at.programme_type', '=', '1');
+            })
+            ->leftJoin('events as e', function ($join) {
+                $join->on('e.id', '=', 'at.programme_id')
+                    ->where('at.programme_type', '=', '2');
+            })
+            ->select(
+                'at.programme_type',
+                DB::raw("
+            CASE WHEN at.programme_type = 1 THEN p.name
+            WHEN at.programme_type = 2 THEN e.name
+            END AS name
+            "),
+                'at.marked_by as faculty_id',
+                'ad.student_id',
+                'at.attendance'
+            )->where('ad.batch_id', $batch_id)->get();
+
+        return response()->json([
+            'batch_id' => $batch_id,
+            'date' => $date,
+            'hour' => $attendance_hour,
+            'attendance' => $results
+        ]);
     }
 
     public function markAttendance(Request $request)
@@ -67,25 +102,24 @@ class AttendanceController extends Controller
                     continue;
                 }
 
-                if($existing->attendance == 0 ){
+                if ($existing->attendance == 0) {
 
-                    if($attendanceValue == 1){
-                            DB::table('attendances')
-                        ->where('id', $existing->id)
-                        ->update([
-                            'programme_id' => $programmeId,
-                            'programme_type' =>2,
-                            'attendance' => 1,
-                            'updated_at' => Carbon::now()
-                        ]);
+                    if ($attendanceValue == 1) {
+                        DB::table('attendances')
+                            ->where('id', $existing->id)
+                            ->update([
+                                'programme_id' => $programmeId,
+                                'programme_type' => 2,
+                                'attendance' => 1,
+                                'updated_at' => Carbon::now()
+                            ]);
 
-                    $updated++;
-                    continue;
+                        $updated++;
+                        continue;
                     }
-
                 }
 
-                 if ($existing->marked_by == $facultyId) {
+                if ($existing->marked_by == $facultyId) {
                     DB::table('attendances')
                         ->where('id', $existing->id)
                         ->update([
@@ -95,9 +129,7 @@ class AttendanceController extends Controller
 
                     $updated++;
                     continue;
-                    }
-                
-               
+                }
             }
         });
 
