@@ -26,8 +26,6 @@ class Admissions extends Migration
 
             $table->foreign('student_id')->references('id')->on('students')->onDelete('cascade');
             $table->foreign('batch_id')->references('id')->on('batches')->onDelete('cascade');
-
-            // Unique constraints
             $table->unique(['student_id', 'batch_id']);
             $table->unique(['batch_id', 'roll_number']); 
         });

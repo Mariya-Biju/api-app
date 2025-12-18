@@ -22,11 +22,10 @@ class Papers extends Migration
         Schema::create('paper_faculties', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('paper_id');
+            $table->integer('total_mark');
             $table->unsignedBigInteger('faculty_id');
             $table->foreign('paper_id')->references('id')->on('papers')->onDelete('cascade');
-
             $table->foreign('faculty_id')->references('id')->on('faculities')->onDelete('cascade');
-
             $table->timestamps();
         });
     }

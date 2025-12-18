@@ -17,7 +17,6 @@ return new class extends Migration
             $table->unsignedTinyInteger('programme_type'); 
             $table->unsignedTinyInteger('attendance'); 
             $table->unsignedBigInteger('marked_by');
-
             $table->timestamps();
             $table->foreign('student_id')->references('id')->on('students')->onDelete('cascade');
             $table->foreign('marked_by')->references('id')->on('faculities')->onDelete('cascade');
