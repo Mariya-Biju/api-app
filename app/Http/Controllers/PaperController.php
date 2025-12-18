@@ -10,20 +10,22 @@ class PaperController extends Controller
 {
     public function index()
     {
-      return DB::table('papers')->get();
+        return DB::table('papers')->get();
     }
 
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required'
+            'name' => 'required',
+            'total_mark' =>'required'
         ]);
 
-        $paper = DB::table('papers')->insert([
-            'name' => $request->name
+         DB::table('papers')->insert([
+            'name' => $request->name,
+            'total_mark' =>$request->total_mark
         ]);
 
-        return (['message' => 'Paper created']);
+        return response()->json(['message' => 'Paper created']);
     }
 
     public function update(Request $request, $id)
@@ -32,9 +34,10 @@ class PaperController extends Controller
         if (!$paper) return (['message' => 'Not found']);
 
         DB::table('papers')->update([
-            'name' => $request->name
+            'name' => $request->name,
+            'total_mark' =>$request->total_mark
         ]);
-        return  "updated";
+        return response()->json(['message' => 'Paper updated']);
     }
 
     public function destroy($id)
