@@ -8,19 +8,20 @@ use Illuminate\Support\Facades\DB;
 
 class BatchController extends Controller
 {
-       public function index(){
+    public function index()
+    {
         $batches = DB::table('batches')->get();
         return $batches;
-
     }
 
-    public function store(Request $request){
+    public function store(Request $request)
+    {
 
         DB::table('batches')->insert([
-            'name'=> $request->name,
-            'programme_id'=> $request->programme_id,
+            'name' => $request->name,
+            'programme_id' => $request->programme_id,
             'academic_year_id' => $request->academic_year_id
         ]);
-      return "Batches  created";
+        return "Batches  created";
     }
 }
