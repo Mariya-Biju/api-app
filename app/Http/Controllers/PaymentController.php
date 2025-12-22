@@ -93,12 +93,12 @@ class PaymentController extends Controller
                 $balance = $payable - $pay['amount'];
 
                 DB::table('remittances')->insert([
-                    'challan_id'   => $challanId,
-                    'invoice_id'   => $invoice->id,
-                    'amount_paid'  => $pay['amount'],
-                    'payment_date' => Carbon::now()->toDateString(),
-                    'created_at'   => Carbon::now(),
-                    'updated_at'   => Carbon::now(),
+                    'challan_id' => $challanId,
+                    'invoice_id' => $invoice->id,
+                    'amount_paid' => $pay['amount'],
+                    'payment_date'=> Carbon::now()->toDateString(),
+                    'created_at' => Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ]);
 
                 if ($balance == 0) {
