@@ -8,23 +8,21 @@ use Illuminate\Support\Facades\DB;
 
 class ProgrammeController extends Controller
 {
-     public function index(){
+    public function index()
+    {
 
         $programmes = DB::table('programes')->get();
         return $programmes;
-        // $programmes = Programme::all();
-        //  return response()->json($programmes);
-
     }
 
-    public function store(Request $request){
+    public function store(Request $request)
+    {
 
-        DB::table('programmes')->insert(['name'=> $request->name,
-            'department_id' =>$request->department_id
-          ]);
-          
-      return json_encode(["message" => "programme created"]);
+        DB::table('programmes')->insert([
+            'name' => $request->name,
+            'department_id' => $request->department_id
+        ]);
+
+        return json_encode(["message" => "programme created"]);
     }
-
-    
 }

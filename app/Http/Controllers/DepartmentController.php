@@ -8,19 +8,19 @@ use Illuminate\Support\Facades\DB;
 
 class DepartmentController extends Controller
 {
-    public function index(){
+    public function index()
+    {
         $departments = DB::table('departments')->get();
         return $departments;
-
-
     }
 
-    public function store(Request $request){
+    public function store(Request $request)
+    {
 
-       DB::table('departments')->insert([
-        'name' =>$request->name,
-        'status' =>$request->status
-       ]);
-      return json_encode(["message" => "Department created"]);
+        DB::table('departments')->insert([
+            'name' => $request->name,
+            'status' => $request->status
+        ]);
+        return json_encode(["message" => "Department created"]);
     }
 }

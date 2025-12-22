@@ -20,8 +20,8 @@ class CalculateDailyAttendanceSummaryJob implements ShouldQueue
         $summary = DB::table('attendances')
             ->select(
                 'student_id',
-                DB::raw("COUNT(CASE WHEN status = '1' THEN 1 END) as present_count"),
-                DB::raw("COUNT(CASE WHEN status = '0' THEN 1 END) as absent_count")
+                DB::raw("COUNT(CASE WHEN attendance = '1' THEN 1 END) as present_count"),
+                DB::raw("COUNT(CASE WHEN attendance = '0' THEN 1 END) as absent_count")
             )
             ->whereDate('date', today())
             ->groupBy('student_id')

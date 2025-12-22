@@ -8,40 +8,39 @@ use Illuminate\Support\Facades\DB;
 
 class EventController extends Controller
 {
-    public function index(){
-         return DB::table('events')->get();
-
+    public function index()
+    {
+        return DB::table('events')->get();
     }
-    public function store(Request $request){
+    public function store(Request $request)
+    {
         DB::table('events')->insert([
-            'name'=> $request->name
+            'name' => $request->name
         ]);
         return " Event created";
-
     }
 
-    public function destroy($id){
-        $event = DB::table('events')->where('id',$id)->first();
-        if(!$event){
-           return "Event not found";
-
+    public function destroy($id)
+    {
+        $event = DB::table('events')->where('id', $id)->first();
+        if (!$event) {
+            return "Event not found";
         }
 
         DB::table('events')->where('id', $id)->delete();
-      return "Event deleted successfully";
-
+        return "Event deleted successfully";
     }
 
-    public function update(Request $request ,$id){
-        $event = DB::table('events')->where('id',$id)->first();
+    public function update(Request $request, $id)
+    {
+        $event = DB::table('events')->where('id', $id)->first();
 
         if (!$event) {
             return "Event not found";
         }
-         DB::table('events')->update([
+        DB::table('events')->update([
             'name' => $request->name
-         ]);
+        ]);
         return "Event updated successfully";
-        
     }
 }

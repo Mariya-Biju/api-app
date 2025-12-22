@@ -1,18 +1,19 @@
 <?php
 
+use App\Http\Controllers\FinalizeController;
+use App\Http\Controllers\ToExcelController;
+use App\Http\Controllers\ToPdfController;
 use Illuminate\Support\Facades\Route;
-
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
 
 Route::get('/', function () {
     return view('welcome');
 });
+// Route::controller(FinalizeController::class)->group(function () {
+//     Route::get('/export-excel/{id}', 'exportAssessmentReport');
+
+// });
+Route::controller(ToExcelController::class)->group(function () {
+    Route::get('/export-excel/{id}', 'exportAssessmentReport');
+
+});
+Route::get('/assessment/{id}/pdf', [ToPdfController::class, 'exportPdf']);
